@@ -1,0 +1,118 @@
+note: in every module for each line of code write comments , mind that comments must and should.
+
+step 1:audio_to_binary.py -> convert given .wav(2 channel, 16bitdepth ) audio to binary, each sample size should be 16 bits, having binary to audio convertion function also
+
+step 2:image_compression.py -> compression of image and function for getting original image by giving compressed data as input.
+
+step 3:image_processsing.py ->converting compressed image into binary , having binary to image convertion function also
+
+step 4:cryptography.py -> enycryption and decription functions are in same file
+
+step 5:lsb_steganography.py -> by taking encrypted  data of image and performing lsb on binary audio file, after performing steganography on binary audio data , we have to convert that binary audio file into normal audio file,and want to save that file in the same  directory  in file named stego-audio,
+
+step 6: main.py -> to handel all the above steps
+
+note: in every module for each line of code write comments , mind that comments must and should.
+
+***retrival****
+
+note: in every module for each line of code write comments , mind that comments must and should.
+
+step 1: retrieve_hidden_image.py -> taking processed audio file from stego audio file ,having encrypted image  data ,as input and 1st converting that into binary using function in audio_to_binary.py file
+
+step 2: retrieve_hidden_image.py ->  after that, extracting image data from binary audio data,
+
+step 3:retrieve_hidden_image.py ->  perform decryption using function in cryptography.py file on extracted binary data of image.
+
+step 4:retrive-main.py ->reconstruction of image by using binary to image convertion function in image_processing.py file 
+
+step 5: retrive-main.py->handle all the steps under retrival in this file
+
+note: in every module for each line of code write comments , mind that comments must and should.
+
+
+
+
+### Execution Steps for the Project:
+
+1. **Navigate to the Project Directory:**
+
+   Open your terminal and navigate to the root directory of your project. This is where the folder `Audio Steganography/` is located.
+
+   ```bash
+   cd /path/to/Audio_Steganography
+   ```
+
+2. **Run the Main Process (to Embed the Image in Audio):**
+
+   To execute the process of embedding the image in the audio file, run the following command in the terminal:
+
+   ```bash
+   python3 src/main.py
+   ```
+
+   This will handle the entire process, including converting audio to binary, compressing the image, encrypting the image, performing LSB steganography, and saving the stego-audio file.
+
+3. **Run the Retrieval Process (to Extract the Hidden Image):**
+
+   After the embedding process is complete, to extract the hidden image from the stego-audio file, run the following command:
+
+   ```bash
+   python3 src/retrive_main.py
+   ```
+
+   This will reverse the process, converting the stego-audio to binary, extracting and decrypting the image data, and reconstructing the original image.
+
+### Understanding Data Length:
+
+- In the retrieval process, the `data_length` is the length of the binary data representing the compressed and encrypted image embedded in the audio.
+- To calculate this in **megabytes (MB)**:
+  - 1 byte = 8 bits.
+  - For a compressed image of size, say 500KB (approx 0.5MB), the binary length would be \( 500 \times 1024 \times 8 = 4,096,000 \) bits.
+  - You can replace `data_length` based on your actual image size.
+
+  So, if your image is 1MB, the approximate data length in bits would be:
+
+  ```python
+  data_length = 1 * 1024 * 1024 * 8  # 8,388,608 bits for a 1MB image
+  ```
+
+
+
+  # Optional: Extract the message from the stego audio (if needed)
+    # You would need to know the length of the data you embedded to extract it correctly.
+    extracted_image_binary = extract_data_from_audio(stego_audio_binary, len(image_binary))
+    
+    # Convert the extracted binary back to bytes
+    extracted_encrypted_image_data = bytes(int(extracted_image_binary[i:i + 8], 2) for i in range(0, len(extracted_image_binary), 8))
+
+    # Decrypt the extracted data (if needed)
+    decrypted_image_data = decrypt_data(iv, base64.b64encode(extracted_encrypted_image_data).decode('utf-8'), key)
+
+    # Save the decrypted image data back to an image file (optional)
+    with open("decrypted_image.png", "wb") as img_file:
+        img_file.write(decrypted_image_data)
+
+    print("Image extracted and decrypted successfully.")
+
+
+
+    
+Validation:
+
+After decrypting, you might want to validate that the decrypted_image_data is indeed a valid image format before saving it. You can do this by attempting to open it with an image library like Pillow.
+python
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+from PIL import Image
+from io import BytesIO
+
+try:
+    image = Image.open(BytesIO(decrypted_image_data))
+    image.save("decrypted_image.png")
+except Exception as e:
+    print(f"Failed to save image: {e}")
