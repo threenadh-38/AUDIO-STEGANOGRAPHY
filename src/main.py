@@ -38,19 +38,19 @@ try:
     print("Steganography completed. Stego-audio saved at", output_audio_path)
     # Optional: Extract the message from the stego audio (if needed)
     # You would need to know the length of the data you embedded to extract it correctly.
-    extracted_image_binary = extract_data_from_audio(stego_audio_binary, len(image_binary))
+    # extracted_image_binary = extract_data_from_audio(stego_audio_binary, len(image_binary))
     
-    # Convert the extracted binary back to bytes
-    extracted_encrypted_image_data = bytes(int(extracted_image_binary[i:i + 8], 2) for i in range(0, len(extracted_image_binary), 8))
+    # # Convert the extracted binary back to bytes
+    # extracted_encrypted_image_data = bytes(int(extracted_image_binary[i:i + 8], 2) for i in range(0, len(extracted_image_binary), 8))
 
-    # Decrypt the extracted data (if needed)
-    decrypted_image_data = decrypt_data(iv, base64.b64encode(extracted_encrypted_image_data).decode('utf-8'), key)
+    # # Decrypt the extracted data (if needed)
+    # decrypted_image_data = decrypt_data(iv, base64.b64encode(extracted_encrypted_image_data).decode('utf-8'), key)
 
-    # Save the decrypted image data back to an image file (optional)
-    with open("decrypted_image.png", "wb") as img_file:
-        img_file.write(decrypted_image_data)
+    # # Save the decrypted image data back to an image file (optional)
+    # with open("decrypted_image.png", "wb") as img_file:
+    #     img_file.write(decrypted_image_data)
 
-    print("Image extracted and decrypted successfully.")
+    # print("Image extracted and decrypted successfully.")
 
 except Exception as e:
     print("An error occurred:", str(e))
